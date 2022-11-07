@@ -1,0 +1,21 @@
+.canvas {
+    height: 85vh;
+    width: 100vw;
+    background-color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.start {
+    height: 50px;
+    width: 100px;
+    background-color: red;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 100px;
+    font-size: 30px;
+}
