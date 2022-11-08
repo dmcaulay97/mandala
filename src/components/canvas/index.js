@@ -13,20 +13,40 @@ const Canvas = () => {
         let height = window.innerHeight
         height *= .85;
         const width = window.innerWidth
-        const numOfBlocks = Math.floor(height / size) * Math.floor(width / size)
+        const numOfRows = Math.floor(height / size)
+        const numOfCols = Math.floor(width / size)
+        const numOfBlocks = numOfRows * numOfCols
+
         const countArray = []
         for (let i = 0; i < numOfBlocks; i++) {
-            countArray.push(i)
+            const blockId = {
+                x: i % numOfCols,
+                y: Math.floor(i / numOfCols),
+                color: "white",
+            }
+
+            countArray.push(blockId)
         }
 
         const canvas = document.getElementsByClassName('canvas')[0];
         canvas.style.height = `${Math.floor(height / size) * size}px`
         canvas.style.width = `${Math.floor(width / size) * size}px`
 
-        const start = document.getElementsByClassName('start')[0];
-        start.style.display = "none"
+        // const start = document.getElementsByClassName('start')[0];
+        // start.style.display = "none"
 
         setCountArray(countArray);
+    }
+
+    const colorChange = (e) => {
+        const block = e.target
+        const x = block.getAttribute("x")
+        const y = block.getAttribute("y")
+        block.style.backgroundColor = "red"
+    }
+
+    const changeOnCoords = (x, y) => {
+
     }
 
 
@@ -36,7 +56,9 @@ const Canvas = () => {
                 Start
             </div>
             {
-                countArray.map((e, index) => (<Block key={index} color="white" size={`${size}px`} />))
+                countArray.map((e, index) => {
+                    return <Block key={index} x={e.x} y={e.y} color={e.color} size={`${size}px`} colorChange={colorChange} />
+                })
             }
         </div>
     )
