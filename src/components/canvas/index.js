@@ -6,8 +6,16 @@ import { useState, useEffect } from "react";
 
 const Canvas = () => {
 
-    const [size, setSize] = useState(100)
+    const [size, setSize] = useState(20)
     const [countArray, setCountArray] = useState([])
+    const [cols, setCols] = useState(0);
+    const [rows, setRows] = useState(0)
+
+    const colors = ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet']
+
+    const randomInt = (max) => {
+        return Math.floor(Math.random() * max)
+    }
 
     const createGrid = () => {
         let height = window.innerHeight
@@ -15,6 +23,8 @@ const Canvas = () => {
         const width = window.innerWidth
         const numOfRows = Math.floor(height / size)
         const numOfCols = Math.floor(width / size)
+        setCols(numOfCols)
+        setRows(numOfRows)
         const numOfBlocks = numOfRows * numOfCols
 
         const countArray = []
@@ -38,14 +48,64 @@ const Canvas = () => {
         setCountArray(countArray);
     }
 
-    const colorChange = (e) => {
-        const block = e.target
-        const x = block.getAttribute("x")
-        const y = block.getAttribute("y")
-        block.style.backgroundColor = "red"
+    const findPosition = (x, y) => {
+        return x + (y * cols)
     }
 
-    const changeOnCoords = (x, y) => {
+    const colorChange = (e) => {
+        const block = e.target
+        const xVal = block.getAttribute("x")
+        const yVal = block.getAttribute("y")
+        // block.style.backgroundColor = "red"
+        changeOnCoords(xVal, yVal, 0)
+    }
+
+    const changeOnCoords = (x, y, colorIndex) => {
+
+        const blocks = document.getElementsByClassName('block')
+        const xVal = parseInt(x)
+        const yVal = parseInt(y)
+        const position = findPosition(xVal, yVal)
+        const block = blocks[position]
+        if (block.style.backgroundColor == 'white') {
+
+            block.style.backgroundColor = colors[colorIndex]
+            const xMax = xVal + 1
+            const xMin = xVal - 1
+            const yMax = yVal + 1
+            const yMin = yVal - 1
+            for (let i = -1; i <= 1; i++) {
+                for (let z = -1; z <= 1; z++) {
+                    if (i != 0 || z != 0) {
+                        const adjacentX = xVal + z
+                        const adjacentY = yVal + i
+                        const adjacentPosition = findPosition(adjacentX, adjacentY)
+                        if ((adjacentX >= 0) && (adjacentX < cols) && (adjacentY >= 0) && (adjacentY < rows)) {
+                            const adjacentBlock = blocks[adjacentPosition]
+                            if (adjacentBlock.style.backgroundColor == "white") {
+                                setTimeout(() => { changeOnCoords(adjacentX, adjacentY, (colorIndex + 1) % 7) }, 0)
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+
+        // for (let i = position - cols - 1; i < position + cols + 1; i++) {
+        //     const adjacentBlock = blocks[i]
+        //     const x = blocks[i].getAttribute('x')
+        //     const y = blocks[i].getAttribute('y')
+
+        //     if ((x >= xMin) && (x <= xMax) && (y <= yMax) && (y >= yMin) && ((x != xVal) || (y != yVal))) {
+        //         if (adjacentBlock.style.backgroundColor == "white") {
+        //             setTimeout(() => { changeOnCoords(x, y) }, 0)
+        //         }
+        //     }
+
+        // }
+
+
 
     }
 

@@ -1,4 +1,4 @@
 .block {
     aspect-ratio: 1;
-
+    transition: background-color 1s
 }
