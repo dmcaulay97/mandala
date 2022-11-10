@@ -84,6 +84,7 @@ const Canvas = () => {
                             const adjacentBlock = blocks[adjacentPosition]
                             if (adjacentBlock.style.backgroundColor == "white") {
                                 setTimeout(() => { changeOnCoords(adjacentX, adjacentY, (colorIndex + 1) % 7) }, 0)
+                                // changeOnCoords(adjacentX, adjacentY, (colorIndex + 1) % 7)
                             }
                         }
                     }

@@ -9,8 +9,8 @@
 }
 
 .start {
-    height: 50px;
-    width: 100px;
+    height: 8vh;
+    width: 16vw;
     background-color: red;
     color: black;
     display: flex;
